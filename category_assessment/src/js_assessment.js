@@ -82,21 +82,16 @@ function anagrams(str1, str2) {
     let resultsHash = {};
 
     str1.split('').forEach( char => {
-        if (!resultsHash[char]) {
-            resultsHash[char] = 0;
-        } else {
-            resultsHash[char] += 1;
-        }
+        if (!resultsHash[char]) resultsHash[char] = 0;
+        resultsHash[char] += 1;
     })
 
     str2.split('').forEach( char => {
-        if (!resultsHash[char]) {
-            resultsHash[char] = 0;
-        } else {
-            resultsHash[char] -= 1;
-        }
+        if (!resultsHash[char]) resultsHash[char] = 0;
+        resultsHash[char] -= 1;
     })
-    // console.log(resultHash)
+
+    // console.log(resultsHash)
     return Object.values(resultsHash).every( value => value == 0);
 }
 
