@@ -15,7 +15,7 @@ describe("String.prototype.symmetricSubstrings", () => {
     expect("xabax".symmetricSubstrings()).toEqual(["aba", "xabax"]);
   });
 });
-
+////////////////////////////////////////////////////////
 describe("String.prototype.realWordsInString", () => {
   it("finds a simple word", () => {
     const words = "asdfcatqwer".realWordsInString(["cat", "car"]);
@@ -43,6 +43,7 @@ describe("String.prototype.realWordsInString", () => {
     expect(words).toEqual(["a", "bears", "ear"]);
   });
 });
+////////////////////////////////////////////////////////
 
 describe("titleize", () => {
   it("capitalizes a word", () => {
@@ -63,6 +64,7 @@ describe("titleize", () => {
     ).toEqual("The Bridge over the River Kwai");
   });
 });
+////////////////////////////////////////////////////////
 
 describe('anagrams', () => {
   beforeEach(() => {

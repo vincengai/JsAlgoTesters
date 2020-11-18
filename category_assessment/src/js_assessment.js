@@ -4,20 +4,19 @@
 // e.g. "cool".symmetricSubstrings() => ["oo"]
 
 String.prototype.symmetricSubstrings = function () {
-    let result = [];
     if (this.length < 1) return [];
-    
-    for (let i = 0; i < this.length; i++) {
-        for (let j = 2; j <= this.length - i; j++) {
-            let substring = this.slice(i,j+i);
-            let reversed = substring.split('').reverse().join('');
+    let results = [];
 
-            if (substring == reversed) {
-                result.push(substring)  
-            }          
+    for (let i = 0; i < this.length; i++) {
+        for (let j = i+1; j < this.length; j++) {
+            let sub = this.slice(i,j+1);
+
+            if (sub == sub.split('').reverse().join('')) {
+                results.push(sub)
+            }
         }
     }
-    return result.sort(); 
+    return results.sort();
 }
 
 
@@ -26,14 +25,13 @@ String.prototype.symmetricSubstrings = function () {
 // sorted alphabetically. This method does NOT return any duplicates.
 
 String.prototype.realWordsInString = function(dictionary) {
-    if (this.length < 1) return [];
+    let results = [];
 
-    let result = [];
+    dictionary.forEach( (el) => {
+        if (this.includes(el)) results.push(el);
+    })
 
-    dictionary.forEach( el => {
-        if (this.includes(el)) result.push(el);
-    });
-    return result.sort();
+    return results.sort();
 }
 
 
@@ -42,18 +40,29 @@ String.prototype.realWordsInString = function(dictionary) {
 // Do not capitalize the following words (unless they are the first word in the 
 // string): ["a", "and", "of", "over", "the"]
 
+
+// 1- Im split every word on a space 
+// 2- Iterate over every word checking if it's in lowerCaseArray
+// 3- If it is, AND if the index == 0, capitalize
+
+// word[0].toUpperCase() + word.slice(1)
 function titleize(str) {
+    let split = str.split(' ');
     let lowerCase = ["a", "and", "of", "over", "the"];
-    let split = str.split(' ')
     let results = [];
 
     for (let i = 0; i < split.length; i++) {
-        if (!lowerCase.includes(split[i]) || i == 0) {
-            results.push(split[i][0].toUpperCase() + split[i].slice(1))
+        let capitolized = split[i][0].toUpperCase() + split[i].slice(1);
+
+        if (!lowerCase.includes(split[i])) {
+            results.push(capitolized)
+        } else if (lowerCase.includes(split[i]) && i == 0) {
+            results.push(capitolized)
         } else {
             results.push(split[i])
         }
     }
+
     return results.join(' ')
 }
 
@@ -65,21 +74,30 @@ function titleize(str) {
 // 
 // Examples:
 
+// Iterate over both strings , have a hashCounter
+// every char += 1, while the str2 -= 1
+// return Object.values.every( value => value === 0)
 
 function anagrams(str1, str2) {
-    let newHash = {};
+    let resultsHash = {};
 
-    str1.split('').forEach( (char) => {
-        if (!newHash[char]) newHash[char] = 0;
-        newHash[char] += 1;
+    str1.split('').forEach( char => {
+        if (!resultsHash[char]) {
+            resultsHash[char] = 0;
+        } else {
+            resultsHash[char] += 1;
+        }
     })
 
-    str2.split('').forEach( (char) => {
-        if (!newHash[char]) newHash[char] = 0;
-        newHash[char] -= 1;
+    str2.split('').forEach( char => {
+        if (!resultsHash[char]) {
+            resultsHash[char] = 0;
+        } else {
+            resultsHash[char] -= 1;
+        }
     })
-
-    return Object.values(newHash).every(count => count === 0);
+    // console.log(resultHash)
+    return Object.values(resultsHash).every( value => value == 0);
 }
 
 anagrams('listen', 'silent') //=> true
