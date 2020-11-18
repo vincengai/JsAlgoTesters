@@ -36,21 +36,28 @@ String.prototype.realWordsInString = function(dictionary) {
     return result.sort();
 }
 
+
 // Write a function `titleize(str)` that capitalizes each word in a string like
 // a book title. 
 // Do not capitalize the following words (unless they are the first word in the 
 // string): ["a", "and", "of", "over", "the"]
 
 function titleize(str) {
-    let dont = ["a", "and", "of", "over", "the"];
+    let lowerCase = ["a", "and", "of", "over", "the"];
     let split = str.split(' ')
-    
-    for (let i = 0 ; i < split.length; i++) {
-        if (!(split[i] in dont)) split[i][0].toUpperCase();
-        if (split[i] in dont && i == 0) split[0][0].toUpperCase();
+    let results = [];
+
+    for (let i = 0; i < split.length; i++) {
+        if (!lowerCase.includes(split[i]) || i == 0) {
+            results.push(split[i][0].toUpperCase() + split[i].slice(1))
+        } else {
+            results.push(split[i])
+        }
     }
-    return split;
+    return results.join(' ')
 }
+
+
 // Write a function, `anagrams(str1, str2)`, that takes in two words and returns 
 // a boolean indicating whether or not the words are anagrams. Anagrams are 
 // words that contain the same characters but not necessarily in the same order. 
