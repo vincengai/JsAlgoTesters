@@ -25,11 +25,32 @@ String.prototype.symmetricSubstrings = function () {
 // an array containing the substrings of `string` that appear in `dictionary`.
 // sorted alphabetically. This method does NOT return any duplicates.
 
+String.prototype.realWordsInString = function(dictionary) {
+    if (this.length < 1) return [];
+
+    let result = [];
+
+    dictionary.forEach( el => {
+        if (this.includes(el)) result.push(el);
+    });
+    return result.sort();
+}
+
 // Write a function `titleize(str)` that capitalizes each word in a string like
 // a book title. 
 // Do not capitalize the following words (unless they are the first word in the 
 // string): ["a", "and", "of", "over", "the"]
 
+function titleize(str) {
+    let dont = ["a", "and", "of", "over", "the"];
+    let split = str.split(' ')
+    
+    for (let i = 0 ; i < split.length; i++) {
+        if (!(split[i] in dont)) split[i][0].toUpperCase();
+        if (split[i] in dont && i == 0) split[0][0].toUpperCase();
+    }
+    return split;
+}
 // Write a function, `anagrams(str1, str2)`, that takes in two words and returns 
 // a boolean indicating whether or not the words are anagrams. Anagrams are 
 // words that contain the same characters but not necessarily in the same order. 
@@ -47,11 +68,11 @@ function anagrams(str1, str2) {
     })
 
     str2.split('').forEach( (char) => {
-        if (!newHash[char]) newhash[char] = 0;
+        if (!newHash[char]) newHash[char] = 0;
         newHash[char] -= 1;
     })
 
-    return Object.values(chars).every(count => count === 0);
+    return Object.values(newHash).every(count => count === 0);
 }
 
 anagrams('listen', 'silent') //=> true
