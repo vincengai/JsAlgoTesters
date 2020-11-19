@@ -226,6 +226,7 @@ function permutations(array) {
 //      ex2. `square` => `aresquay`
 function pigLatinify(sentence) {
   const words = sentence.split(' ');
+  
   const translateWord = (word) => {
     vowels = 'aeiou'.split('');
     if (vowels.indexOf(word[0]) != -1) {

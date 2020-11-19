@@ -103,6 +103,24 @@ anagrams('listen', 'potato') //=> false
 //
 // primeFactorization(12) => [2,2,3]
 
+function primeFactorization(n) {
+    var factors = [],
+        divisor = 2;
+
+    while (n >= 2) {
+        if (n % divisor == 0 ) {
+            factors.push(divisor);
+            n = n / divisor;
+        }
+        else {
+            divisor++;
+        }
+    }
+    return factors;
+}
+
+
+
 // Back in the good old days, you used to be able to write a darn near
 // uncrackable code by simply taking each letter of a message and incrementing 
 // it by a fixed number, so "abc" by 2 would look like "cde", wrapping around 
@@ -118,12 +136,54 @@ anagrams('listen', 'potato') //=> false
 // caesarCipher(“abc”, 2) => “cde”
 // caesarCipher(“xyz”, 1) => “yza"
 
+// oldIndex = alphabet.indexOf(split[i])
+// newInd = old + num;
+// alpha[newIndd]
+function caesarCipher(str, num) {
+    let alphabet = 'abcdefghijklmnopqrstuvwxyz'
+    let split = str.split('');
+    let results = [];
+
+    for (let i = 0; i < split.length; i++) {
+        let oldIndex = alphabet.split('').indexOf(split[i]);
+        let newIndex = (oldIndex + num) % 26;
+        let newChar = alphabet[newIndex];
+
+        if (split[i] == ' ') {
+            results.push(' ');
+        } else {
+            results.push(newChar)
+        }
+    }
+    return results.join('')
+}
+
 // Write a recursive function, `permutations(array)`, that returns all of the 
 // permutations of an array (A permutation is a possible ordering of the 
 // elements in an array)
 // e.g. permutations([1,2]) => [[1,2], [2,1]]
 // e.g. permutations([1,2,3]) => [[1,2,3], [1,3,2], [2,1,3], 
 //                                [2,3,1], [3,1,2], [3,2,1]]
+
+// arr.length factorial (3*2*1) 
+
+function permutations(array) {
+    if (array.length <= 1) {
+        return [array];
+    }
+    const result = [];
+    const first = array.pop();
+    const prevPerms = permutations(array);
+
+    prevPerms.forEach(perm => {
+        for (let i = 0; i <= perm.length; i++) {
+            let nextPerm = perm.slice(0, i).concat([first]).concat(perm.slice(i));
+            result.push(nextPerm);
+        }
+    });
+
+    return result;
+}
 
 // **THIS PROBLEM WILL NOT SHOW UP ON A REAL ASSESSMENT** 
 // If you are a non-native English speaker and find it difficult to understand this
@@ -143,15 +203,53 @@ anagrams('listen', 'potato') //=> false
 //      ex1. `queen` => `eenquay`
 //      ex2. `square` => `aresquay`
 
+
+function pigLatinify(sentence) {
+    const words = sentence.split(' ');
+
+    const translateWord = (word) => {
+        vowels = 'aeiou'.split('');
+        if (vowels.indexOf(word[0]) != -1) {
+            return `${word}ay`;
+        } else {
+            let phonemeEnd = 0;
+            while (!(vowels.indexOf(word[phonemeEnd]) != -1)) {
+                phonemeEnd += 1;
+            }
+
+            if (word[phonemeEnd - 1] === 'q') phonemeEnd += 1;
+            return `${word.slice(phonemeEnd)}${word.slice(0, phonemeEnd)}ay`;
+        }
+    };
+
+    return words.map(word => translateWord(word)).join(' ');
+}
 // Write a function `subsets(arr)` that recursively returns all subsets of an
 // array. Examples:
 // `subsets([1,2])` => [[],[1],[2],[1,2]]
 // `subsets([1,2,3])` => [[], [1], [2], [3], [1,2], [1,3], [2,3], [1,2,3]]
+
+function subsets(arr) {
+    let results = [];
+
+    if (arr.length < 1) return [[]]
+
+    for (let i = 0; i < arr.length; i++) {
+        for (let j = 0; j < arr.length; j++) {
+            let sub = arr.slice(i, j+1);
+
+            results.push(sub)
+        }
+    }
+    return results.sort();
+}
 // Write a recursive function, `baseConverter(n, b)` that takes in a base 10 
 // number `n` and converts it to a base `b` number. Assume that `b` will never 
 // be greater than 16. Return the new number as a string. If the number is 0, 
 // your function should return "0" regardless of the base.
 //
+
+
 // The 'base' of a number refers to the amount of possible digits that can occupy
 // one of the places in the number. We are used to base 10 numbers, which use
 // the digits 0-9, however in computer science base 2 (binary) and base 16 (hexadecimal)
